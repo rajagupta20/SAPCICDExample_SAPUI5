@@ -1,0 +1,26 @@
+{
+  "name": "HTML5Module",
+  "version": "0.0.1",
+  "devDependencies": {
+    "@openui5/ts-types": "1.60.x",
+    "@sap/ui5-builder-webide-extension": "1.0.x",
+    "@ui5/cli": "^2.2.0",
+    "karma": "^5.0.4",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-coverage": "^2.0.2",
+    "karma-ui5": "^2.1.0",
+    "karma-webdriver-launcher": "^1.0.7",
+    "local-web-server": "^4.0.0"
+  },
+  "scripts": {
+    "karma-ci": "karma start karma-ci.conf.js --browsers ChromeRemote",
+    "karma-compose": "docker-compose up --abort-on-container-exit",
+    "test": "npm run karma-ci",
+    "build": "ui5 build --include-task=generateManifestBundle generateCachebusterInfo"
+  },
+  "ui5": {
+    "dependencies": [
+      "@sap/ui5-builder-webide-extension"
+    ]
+  }
+}

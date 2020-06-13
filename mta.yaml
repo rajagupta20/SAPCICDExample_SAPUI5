@@ -1,0 +1,49 @@
+_schema-version: "3.2"
+ID: BAS_Sample_App
+version: 0.0.1
+modules:
+- name: bas-sample-app-approuter
+  type: approuter.nodejs
+  path: bas-sample-app-approuter
+  requires:
+  - name: BAS_Sample_App_html_repo_runtime
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+- name: BAS_Sample_App_ui_deployer
+  type: com.sap.html5.application-content
+  path: BAS_Sample_App_ui_deployer
+  requires:
+  - name: BAS_Sample_App_html_repo_host
+  build-parameters:
+    requires:
+    - artifacts:
+      - ./*
+      name: HTML5Module
+      target-path: resources/HTML5Module
+- name: HTML5Module
+  type: html5
+  path: HTML5Module
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build
+    supported-platforms: []
+resources:
+- name: BAS_Sample_App_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: BAS_Sample_App_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install
